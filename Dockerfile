@@ -1,22 +1,28 @@
-# Build stage
+# ===== Build stage =====
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
-# Copy everything
+# Копіюємо всі проєкти в контекст
 COPY . .
 
-# OPTIONAL: Restore packages (if needed)
+# Відновлюємо залежності
 RUN dotnet restore
 
-# Run unit tests
+# 🔍 Запускаємо тести перед публікацією
 RUN dotnet test RealDotNetApp.Tests/RealDotNetApp.Tests.csproj --no-build --verbosity normal
 
-# Publish the API project
-RUN dotnet publish RealDotNetApp.Api/RealDotNetApp.csproj --configuration Release --no-restore --output /app
+# Публікуємо API
+RUN dotnet publish RealDotNetApp.Api/RealDotNetApp.csproj \
+    --configuration Release \
+    --no-restore \
+    --output /app
 
-# Runtime stage
+# ===== Runtime stage =====
 FROM mcr.microsoft.com/dotnet/aspnet:9.0
 WORKDIR /app
+
+# Копіюємо зібраний застосунок
 COPY --from=build /app .
+
 EXPOSE 80
 ENTRYPOINT ["dotnet", "RealDotNetApp.dll"]
