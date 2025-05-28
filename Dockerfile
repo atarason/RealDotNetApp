@@ -9,7 +9,8 @@ COPY . .
 RUN dotnet restore
 
 # 🔍 Запускаємо тести перед публікацією
-RUN dotnet test RealDotNetApp.Tests/RealDotNetApp.Tests.csproj --no-build --verbosity normal
+RUN dotnet test RealDotNetApp.Tests/RealDotNetApp.Tests.csproj --verbosity normal
+
 
 # Публікуємо API
 RUN dotnet publish RealDotNetApp.Api/RealDotNetApp.csproj \
