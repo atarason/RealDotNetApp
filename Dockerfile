@@ -8,7 +8,7 @@ COPY . .
 # OPTIONAL: Restore packages (if needed)
 RUN dotnet restore
 
-# ✅ Run unit tests (вважаємо, що тести в проєкті RealDotNetApp.Tests)
+# Run unit tests
 RUN dotnet test RealDotNetApp.Tests/RealDotNetApp.Tests.csproj --no-build --verbosity normal
 
 # Publish the API project
