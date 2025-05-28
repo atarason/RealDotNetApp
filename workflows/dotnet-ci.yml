@@ -1,4 +1,4 @@
-name: .NET CI
+name: .NET CI with Tests
 
 on:
   push:
@@ -7,14 +7,14 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Setup .NET 9
+    - name: Setup .NET 9 SDK
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '9.0.x'
@@ -22,16 +22,16 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
 
-    - name: Build
+    - name: Build solution
       run: dotnet build --configuration Release --no-restore
 
-    - name: Test
-      run: dotnet test --no-restore --verbosity normal
+    - name: Run unit tests
+      run: dotnet test RealDotNetApp.Tests/RealDotNetApp.Tests.csproj --no-restore --verbosity normal
 
-    - name: Publish
-      run: dotnet publish --configuration Release --no-restore --output ./publish
+    - name: Publish app
+      run: dotnet publish RealDotNetApp/RealDotNetApp.csproj --configuration Release --no-restore --output ./publish
 
-    - name: Upload artifact
+    - name: Upload publish artifact
       uses: actions/upload-artifact@v4
       with:
         name: published-app
