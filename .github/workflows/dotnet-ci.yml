@@ -29,7 +29,7 @@ jobs:
       run: dotnet test RealDotNetApp.Tests/RealDotNetApp.Tests.csproj --no-restore --verbosity normal
 
     - name: Publish app
-      run: dotnet publish RealDotNetApp/RealDotNetApp.csproj --configuration Release --no-restore --output ./publish
+      run: dotnet publish RealDotNetApp.Api/RealDotNetApp.csproj --configuration Release --no-restore --output ./publish
 
     - name: Upload publish artifact
       uses: actions/upload-artifact@v4
