@@ -61,6 +61,12 @@ app.MapGet("/api/products", async (IProductService service) =>
     return Results.Ok(items);
 }).WithTags("Products");
 
+app.MapGet("/api/products/{id:int}", async (IProductService service, int id) =>
+{
+    var items = await service.GetByIdAsync(id);
+    return Results.Ok(items);
+}).WithTags("Products");
+
 app.MapPost("/api/products", async ([FromBody] ProductCreateDto dto, IProductService service) =>
 {
     if (string.IsNullOrWhiteSpace(dto.Name) || dto.Price <= 0)

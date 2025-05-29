@@ -14,6 +14,9 @@ public class ProductService : IProductService
     public async Task<IEnumerable<Product>> GetAllAsync() => await _repository.GetAllAsync();
 
     /// <inheritdoc/>
+    public async Task<Product> GetByIdAsync(int id) => await _repository.GetByIDAsync(id);
+
+    /// <inheritdoc/>
     public async Task<Product> CreateAsync(ProductCreateDto dto)
     {
         var product = new Product { Name = dto.Name, Price = dto.Price };
